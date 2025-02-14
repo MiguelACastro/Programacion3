@@ -1,4 +1,4 @@
-package act4_ventana;
+package ventana;
 
 public class Main {
 
