@@ -116,6 +116,8 @@ public class Ventana extends JFrame{
 		JLabel textoUsuario = new JLabel("Nombre de usuario");
 		textoUsuario.setFont(fuenteMediana);
 		textoUsuario.setBounds(140, 80, 120, 20);
+		textoUsuario.setBackground(Color.ORANGE);
+		textoUsuario.setOpaque(true);
 		panelRegistro.add(textoUsuario);
 		
 		JTextField campoUsuario = new JTextField();
@@ -160,7 +162,9 @@ public class Ventana extends JFrame{
 		//Terminos
 		JLabel textoTerminos = new JLabel("Terminos");
 		textoTerminos.setFont(fuenteMediana);
-		textoTerminos.setBounds(140, 260, 120, 20);
+		textoTerminos.setBounds(140, 260, 60, 20);
+		textoTerminos.setBackground(Color.ORANGE);
+		textoTerminos.setOpaque(true);
 		panelRegistro.add(textoTerminos);
 		
 		JRadioButton botonAceptar = new JRadioButton("Acepto los términos");
@@ -179,16 +183,24 @@ public class Ventana extends JFrame{
 		
 		
 		//Elegir colonia
+		JLabel textoColonia = new JLabel("Colonia");
+		textoColonia.setFont(fuenteMediana);
+		textoColonia.setBounds(140, 300, 50, 20);
+		textoColonia.setBackground(Color.ORANGE);
+		textoColonia.setBackground(Color.ORANGE);
+		textoColonia.setOpaque(true);
+		panelRegistro.add(textoColonia);
+		
 		String[] coloniasDataset = {"Ayuntamiento", "Balandra", "Calafia", "Diana Laura", "El Progreso"};
 		
 		JComboBox<String> elegirColonia = new JComboBox<String>(coloniasDataset);
-		elegirColonia.setBounds(140, 300, 120, 30);
+		elegirColonia.setBounds(140, 320, 120, 30);
 		panelRegistro.add(elegirColonia);
 		
 		//Boton Crear Cuenta
 		JButton botonRegistro = new JButton("Crear Cuenta");
 		botonRegistro.setFont(fuenteMediana);
-		botonRegistro.setBounds(182, 350, 120, 30);
+		botonRegistro.setBounds(182, 360, 120, 30);
 		panelRegistro.add(botonRegistro);
 		
 		panelRegistro.revalidate();
