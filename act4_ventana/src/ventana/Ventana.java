@@ -1,8 +1,14 @@
 package ventana;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.concurrent.Flow;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -14,8 +20,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class Ventana extends JFrame{
 	
@@ -23,23 +33,24 @@ public class Ventana extends JFrame{
 	private Font fuenteMediana = fuenteGrande.deriveFont(14f);
 	private Font fuenteChica = fuenteGrande.deriveFont(10f);
 	
+	private Font fuenteTitulo = new Font("Cambria", Font.BOLD, 42);
+	
 	public Ventana(String titulo) {
 		this.setTitle(titulo);
-		this.setSize(500, 500);
 		
-		this.setResizable(true);
 		this.setVisible(true);
-
-		this.setLayout(null);
-		this.setLocationRelativeTo(null);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.setMinimumSize(new Dimension(400, 400));
-		this.setMaximumSize(new Dimension(600, 600));
-		
 //		this.add(login());
-		this.add(registro());
+//		this.add(registro());
+		this.add(dashboard());
+		
+		this.pack();
+		this.setLocationRelativeTo(null);
+		
+		this.setMinimumSize(getMinimumSize());
+		this.setPreferredSize(getPreferredSize());;
 		this.repaint();
 	}
 	
@@ -101,7 +112,7 @@ public class Ventana extends JFrame{
 		JPanel panelRegistro = new JPanel();
 		
 		panelRegistro.setLayout(null);
-		panelRegistro.setSize(500, 500);
+		panelRegistro.setPreferredSize(new Dimension(500, 500));
 		
 		JLabel etiqueta = new JLabel("Registro");
 		etiqueta.setFont(fuenteGrande);
@@ -206,5 +217,104 @@ public class Ventana extends JFrame{
 		panelRegistro.revalidate();
 		
 		return panelRegistro;		
+	}
+	
+	public JPanel dashboard() {
+		JPanel panelDashboard = new JPanel(new GridBagLayout());
+		panelDashboard.setBorder(new EmptyBorder(0, 20, 20, 20));
+		panelDashboard.setBackground(Color.CYAN);
+		GridBagConstraints reglas = new GridBagConstraints();
+		
+		JLabel etiquetaTitulo = new JLabel("Usuarios");
+		etiquetaTitulo.setFont(fuenteTitulo);
+		etiquetaTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		etiquetaTitulo.setOpaque(true);
+		etiquetaTitulo.setBackground(Color.BLACK);
+		etiquetaTitulo.setForeground(Color.WHITE);
+		reglas.gridx = 1;
+		reglas.gridy = 0;
+		reglas.gridheight = 1;
+		reglas.gridwidth = 1;
+		reglas.fill = GridBagConstraints.BOTH;
+		reglas.insets = new Insets(20, 20, 20, 20);
+		panelDashboard.add(etiquetaTitulo, reglas);
+		reglas.insets = new Insets(0, 0, 0, 0);
+		
+		JLabel etiquetaContador = new JLabel("<html><center>Numero de usuarios<br>100</center></html>");
+		etiquetaContador.setFont(fuenteGrande);
+		etiquetaContador.setOpaque(true);
+		etiquetaContador.setBackground(Color.BLACK);
+		etiquetaContador.setForeground(Color.WHITE);
+		reglas.gridx = 0;
+		reglas.gridy = 1;
+		reglas.gridheight = 1;
+		reglas.gridwidth = 1;
+		reglas.weightx= 1;
+		reglas.weighty = 1;
+		reglas.fill = GridBagConstraints.NONE;
+		reglas.anchor = GridBagConstraints.WEST;
+		panelDashboard.add(etiquetaContador, reglas);
+		
+		JButton botonExportar = new JButton("Exportar");
+		botonExportar.setFont(fuenteMediana);
+		
+		JButton botonAgregar = new JButton("Añadir");
+		botonAgregar.setFont(fuenteMediana);
+		
+		JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+		panelBotones.setBackground(Color.CYAN);
+		panelBotones.add(botonExportar);
+		panelBotones.add(botonAgregar);
+		reglas.gridx = 2;
+		reglas.gridy = 2;
+		reglas.gridheight = 1;
+		reglas.gridwidth = 1;
+		reglas.insets = new Insets(0, 50, 0, 0);
+		reglas.fill= GridBagConstraints.NONE;
+		reglas.anchor = GridBagConstraints.SOUTHEAST;
+		panelDashboard.add(panelBotones, reglas);
+		reglas.insets = new Insets(0, 0, 0, 0);
+		
+		String[] nombreColumnas = {"Nombre", "Apellido", "Deporte", "Edad", "Vegetariano"};
+		
+		Object[][] datos = {
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false}
+		};
+		
+		JTable tabla = new JTable(datos, nombreColumnas);
+		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		JScrollPane scrollPane = new JScrollPane(tabla);
+		scrollPane.setPreferredSize(new Dimension(400, 260));
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setBackground(Color.CYAN);
+		reglas.gridx = 0;
+		reglas.gridy = 3;
+		reglas.gridheight = 1;
+		reglas.gridwidth = 3;
+		reglas.fill = GridBagConstraints.HORIZONTAL;
+		reglas.anchor = GridBagConstraints.NORTH;
+		panelDashboard.add(scrollPane, reglas);
+		
+		return panelDashboard;
 	}
 }
