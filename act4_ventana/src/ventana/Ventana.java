@@ -5,13 +5,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.Flow;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -33,7 +43,8 @@ public class Ventana extends JFrame{
 	private Font fuenteMediana = fuenteGrande.deriveFont(14f);
 	private Font fuenteChica = fuenteGrande.deriveFont(10f);
 	
-	private Font fuenteTitulo = new Font("Cambria", Font.BOLD, 42);
+	private Font fuenteTitulo = new Font("Cambria", Font.BOLD, 36);
+	private Font fuenteSubtitulo = fuenteTitulo.deriveFont(32f);
 	
 	public Ventana(String titulo) {
 		this.setTitle(titulo);
@@ -42,9 +53,9 @@ public class Ventana extends JFrame{
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-//		this.add(login());
+		this.add(login());
 //		this.add(registro());
-		this.add(dashboard());
+//		this.add(dashboard());
 		
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -55,57 +66,105 @@ public class Ventana extends JFrame{
 	}
 	
 	public JPanel login() {
+		JPanel panelFondo = new JPanel(new BorderLayout());
+		panelFondo.setBackground(Color.RED);
+		panelFondo.setBorder(new EmptyBorder(30, 30, 30, 30)); //Margenes 
+		
+		JPanel panelImagen = new JPanel(new BorderLayout());
+		panelImagen.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+	
+		JLabel etiquetaBienvenida = new JLabel("¡Bienvenido de nuevo!");
+		etiquetaBienvenida.setFont(fuenteTitulo);
+		panelImagen.add(etiquetaBienvenida, BorderLayout.NORTH);
+		
+		BufferedImage bufferedImage = null;
+		try {
+			bufferedImage = ImageIO.read(new File("img/logo.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Image imagenLogo = bufferedImage.getScaledInstance(200, 200, Image.SCALE_DEFAULT);
+		JLabel logo = new JLabel(new ImageIcon(imagenLogo));	
+		panelImagen.add(logo, BorderLayout.SOUTH);
+		
 		JPanel panelLogin = new JPanel();
+		panelLogin.setLayout(new BoxLayout(panelLogin, BoxLayout.Y_AXIS));
 		
-		panelLogin.setLayout(null);
-		panelLogin.setSize(500, 500);
+		JLabel etiquetaLogin = new JLabel("Iniciar sesión");
+		etiquetaLogin.setFont(fuenteSubtitulo);	
+		etiquetaLogin.setHorizontalAlignment(JLabel.CENTER);
+		panelLogin.add(etiquetaLogin);
+		panelLogin.add(Box.createRigidArea(new Dimension(0, 30)));
 		
-		JLabel etiqueta = new JLabel("Bienvenido");
+		JLabel etiquetaUsuario = new JLabel("Nombre de usuario");
+		etiquetaUsuario.setFont(fuenteMediana);
+		panelLogin.add(etiquetaUsuario);
 		
-		etiqueta.setFont(fuenteGrande);
-		etiqueta.setBounds(172, 40, 140, 30);
-		etiqueta.setOpaque(true);
-		etiqueta.setBackground(Color.ORANGE);		
-		etiqueta.setHorizontalAlignment(JLabel.CENTER);
-		
-		panelLogin.add(etiqueta);
-		
-		JLabel textoUsuario = new JLabel("Nombre de usuario");
-		textoUsuario.setFont(fuenteMediana);
-		textoUsuario.setBounds(140, 100, 120, 20);
-		panelLogin.add(textoUsuario);
-		
-		JTextField campoUsuario = new JTextField();
-		campoUsuario.setBounds(140, 120, 204, 20);
+		try {
+			bufferedImage = ImageIO.read(new File("img/usuario.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Image imagenUsuario = bufferedImage.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		JTextField campoUsuario = new JTextField(){  
+            protected void paintComponent(Graphics g) {  
+                super.paintComponent(g);  
+                int y = (getHeight() - imagenUsuario.getHeight(null))/2;  
+                g.drawImage(imagenUsuario, 0, y, this);  
+            }  
+        };  ;
+		campoUsuario.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		panelLogin.add(campoUsuario);
+		panelLogin.add(Box.createRigidArea(new Dimension(0, 10)));
 		
-		JLabel textoPassword = new JLabel("Contraseña");
-		textoPassword.setFont(fuenteMediana);
-		textoPassword.setBounds(140, 160, 120, 20);
-		panelLogin.add(textoPassword);
+		JLabel etiquetaPassword = new JLabel("Contraseña");
+		etiquetaPassword.setFont(fuenteMediana);
+		etiquetaPassword.setBounds(140, 160, 120, 20);
+		panelLogin.add(etiquetaPassword);
 		
-		JPasswordField campoPassword = new JPasswordField();
+		try {
+			bufferedImage = ImageIO.read(new File("img/password.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Image imagenPassword = bufferedImage.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+		JPasswordField campoPassword = new JPasswordField(){  
+            protected void paintComponent(Graphics g) {  
+                super.paintComponent(g);  
+                int y = (getHeight() - imagenPassword.getHeight(null))/2;  
+                g.drawImage(imagenPassword, 0, y, this);  
+            }  
+        };;
+		campoPassword.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		campoPassword.setBounds(140, 180, 204, 20);
 		panelLogin.add(campoPassword);
+		panelLogin.add(Box.createRigidArea(new Dimension(0, 5)));
+		
+		JLabel etiquetaRecuperacion= new JLabel("¿Olvidó su contraseña?");
+		etiquetaRecuperacion.setFont(fuenteChica);
+		etiquetaRecuperacion.setBounds(250, 210, 120, 20);
+		panelLogin.add(etiquetaRecuperacion);
+		panelLogin.add(Box.createRigidArea(new Dimension(0, 10)));
 		
 		JCheckBox recordar = new JCheckBox("Recordarme");
 		recordar.setFont(fuenteChica);
 		recordar.setBounds(140, 210, 80, 20);
 		panelLogin.add(recordar);
+		panelLogin.add(Box.createRigidArea(new Dimension(0, 10)));
 		
-		JLabel textoRecuperacion= new JLabel("¿Olvidó su contraseña?");
-		textoRecuperacion.setFont(fuenteChica);
-		textoRecuperacion.setBounds(250, 210, 120, 20);
-		panelLogin.add(textoRecuperacion);
 		
 		JButton botonLogin = new JButton("Acceder");
 		botonLogin.setFont(fuenteMediana);
 		botonLogin.setBounds(192, 250, 100, 30);
 		panelLogin.add(botonLogin);
 		
+		JPanel panelInterfaz = new JPanel(new GridBagLayout());
+		panelInterfaz.add(panelImagen);
+		panelInterfaz.add(panelLogin);
 		panelLogin.revalidate();
 		
-		return panelLogin;			
+		panelFondo.add(panelInterfaz, BorderLayout.CENTER);
+		return panelFondo;			
 	}
 	
 	public JPanel registro() {
