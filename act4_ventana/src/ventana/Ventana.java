@@ -24,9 +24,13 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -56,15 +60,46 @@ public class Ventana extends JFrame{
 		this.add(login());
 //		this.add(registro());
 //		this.add(dashboard());
+		this.setJMenuBar(menu());
 		
 		this.pack();
 		this.setLocationRelativeTo(null);
 		
 		this.setMinimumSize(getMinimumSize());
 		this.setPreferredSize(getPreferredSize());;
+		
+		
+		this.revalidate();
 		this.repaint();
 	}
 	
+	public JMenuBar menu() {
+		JMenuBar barra = new JMenuBar();
+		
+		JMenu menuArchivo = new JMenu("Archivo");
+		
+		JMenuItem opcionNuevo = new JMenuItem("Nuevo");	
+		JMenuItem opcionAbrir = new JMenuItem("Abrir");	
+		JMenuItem opcionGuardar = new JMenuItem("Guardar");	
+		JCheckBoxMenuItem opcionGuardadoAutomatico = new JCheckBoxMenuItem("Guardado automatico");
+		JMenuItem opcionCerrar = new JMenuItem("Cerrar");	
+		
+		menuArchivo.add(opcionNuevo);
+		menuArchivo.add(opcionAbrir);
+		menuArchivo.addSeparator();
+		menuArchivo.add(opcionGuardar);
+		menuArchivo.add(opcionGuardadoAutomatico);
+		menuArchivo.addSeparator();
+		menuArchivo.add(opcionCerrar);
+		
+		barra.add(menuArchivo);
+		
+		JMenu menuAyuda = new JMenu("Ayuda");
+		
+		barra.add(menuAyuda);
+		
+		return barra;
+	}
 	public JPanel login() {
 		JPanel panelFondo = new JPanel(new BorderLayout());
 		panelFondo.setBackground(Color.RED);
