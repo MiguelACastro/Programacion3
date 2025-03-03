@@ -52,7 +52,7 @@ public class Ventana extends JFrame{
 	
 	public Ventana(String titulo) {
 		this.setTitle(titulo);
-		
+		this.setIconImage(new ImageIcon("img/logo.png").getImage());		
 		this.setVisible(true);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
