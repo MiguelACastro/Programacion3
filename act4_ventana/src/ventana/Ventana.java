@@ -1,16 +1,19 @@
 package ventana;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -67,7 +70,6 @@ public class Ventana extends JFrame{
 		
 		this.setMinimumSize(getMinimumSize());
 		this.setPreferredSize(getPreferredSize());;
-		
 		
 		this.revalidate();
 		this.repaint();
@@ -410,5 +412,51 @@ public class Ventana extends JFrame{
 		panelDashboard.add(scrollPane, reglas);
 		
 		return panelDashboard;
+	}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		Graphics2D g2d = (Graphics2D) g;
+		
+		g2d.setColor(Color.RED);
+		
+		g2d.drawRect(80, 80, 200, 200);
+		g2d.fillRect(100, 100, 100, 100);
+		g2d.clearRect(120, 120, 20, 20);
+		
+		g2d.setColor(Color.GREEN);
+		
+		g2d.fillRoundRect(200, 100 , 100, 100, 30, 30);
+		
+		g2d.setColor(Color.BLUE);
+		g2d.setStroke(new BasicStroke(5));
+		
+		g2d.drawLine(100, 100, 500, 300);
+		
+		g2d.drawOval(300, 150, 100, 70);
+		g2d.fillOval(300, 100, 50, 20);
+		
+		g2d.drawArc(50, 200, 100, 100, 0, -180);
+		g2d.fillArc(50, 170, 20, 20, 0, 360);
+		g2d.fillArc(130, 170, 20, 20, 0, 360);
+		
+		g2d.setColor(Color.BLACK);
+		g2d.setFont(new Font("Arial", Font.BOLD, 50));
+		g2d.drawString("HOLA", 200, 300);
+		
+		AffineTransform transform = AffineTransform.getTranslateInstance(200, 100);
+		transform.concatenate(AffineTransform.getScaleInstance(0.1, 0.1));
+		
+		g2d.drawImage(getIconImage(), transform, null);
+		
+		int[] xs = {100, 100, 250};
+		int[] ys = {100, 200, 250};
+		
+		g2d.drawPolygon(xs, ys, 3);
+		
+		int[] xs2 = {500, 450, 500};
+		int[] ys2 = {300, 220, 150};
+		
+		g2d.fillPolygon(xs2, ys2, 3);
 	}
 }
