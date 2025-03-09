@@ -2,17 +2,24 @@ package ventana;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.LinearGradientPaint;
 import java.awt.Polygon;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class VentanaGraphics extends JFrame{
+	private final Font fuente = new Font("Bauhaus 93", Font.PLAIN, 50);
 	
 	public VentanaGraphics() {
-		this.setSize(800, 600);
+//		this.setSize(800, 600);
+		this.setSize(1000, 750);
 		this.setVisible(true);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -20,7 +27,7 @@ public class VentanaGraphics extends JFrame{
 		this.setLocationRelativeTo(null);
 		
 		JPanel canvas = new JPanel();
-		canvas.setBackground(new Color(1, 190, 254));
+//		canvas.setBackground(new Color(1, 190, 254));
 		
 		this.add(canvas);
 		
@@ -33,7 +40,8 @@ public class VentanaGraphics extends JFrame{
 		super.paint(g);
 		
 		Graphics2D g2d = (Graphics2D) g;
-		pintarCasa(g2d);
+//		pintarCasa(g2d);
+		pintarSMB3(g2d);
 	}
 	
 	public void pintarCasa(Graphics2D g2d) {
@@ -121,5 +129,159 @@ public class VentanaGraphics extends JFrame{
 		g2d.fillPolygon(techo);
 	}
 	
+	private void pintarSMB3(Graphics2D g2d) {
+		//Cielo
+		GradientPaint gradienteCielo = new GradientPaint(0, 0, new Color(106, 153, 244),
+				0, 673, new Color(146, 192, 244));
+		g2d.setPaint(gradienteCielo);
+		g2d.fillRect(0, 0, 1000, 673);
+		
+		//Fondo
+		g2d.setColor(new Color(102, 173, 210));
+		g2d.fillRoundRect(15, 550, 50, 220, 50, 50);
+		g2d.fillRoundRect(65, 550, 40, 220, 50, 50);
+		g2d.fillRoundRect(400, 550, 55, 220, 50, 50);
+		g2d.fillRoundRect(455, 550, 30, 220, 50, 50);
+		g2d.fillRoundRect(580, 570, 40, 200, 50, 50);
+		g2d.fillRoundRect(620, 550, 35, 230, 50, 50);
+		g2d.setColor(new Color(89, 160, 198));
+		g2d.fillRoundRect(0, 570, 50, 200, 50, 50);
+		g2d.fillRoundRect(50, 590, 50, 190, 50, 50);
+		g2d.fillRoundRect(380, 600, 50, 170, 50, 50);
+		g2d.fillRoundRect(430, 570, 50, 200, 50, 50);
+		g2d.fillRoundRect(560, 550, 30, 220, 50, 50);
+		g2d.fillRoundRect(590, 600, 55, 170, 50, 50);
+		
+		//Suelo
+		g2d.setColor(new Color(173, 97, 36));
+		g2d.fillRect(0, 700, 1000, 50);
+		
+		g2d.setColor(new Color(216, 127, 66));
+		g2d.fillRect(0, 685, 1000, 15);
+		
+		g2d.setColor(Color.BLACK);
+		g2d.setStroke(new BasicStroke(6));
 	
+		g2d.drawLine(0, 682, 1000, 682);
+		
+		GradientPaint gradienteSuelo = new GradientPaint(0, 672, new Color(241, 166, 110),
+									0, 682, new Color(78, 43, 22));
+		g2d.setPaint(gradienteSuelo);
+		g2d.fillRect(0, 672, 1000, 10);
+		
+		g2d.setPaint(null);
+		
+		//Plataforma azul fondo
+		g2d.setColor(new Color(128, 207, 236));
+		g2d.fillRect(110, 490, 200, 180);
+		
+		g2d.setColor(new Color(83, 159, 209));
+		g2d.fillRect(115, 495, 13, 13);
+		g2d.setColor(new Color(155, 232, 246));
+		g2d.setStroke(new BasicStroke(7));
+		g2d.drawLine(110, 490, 310, 490);
+		g2d.drawLine(110, 490, 110, 510);
+		g2d.fillRect(113, 493, 10, 10);
+		
+		//Plataforma coral fondo
+		g2d.setColor(new Color(242, 185, 131));
+		g2d.fillRect(360, 550, 40, 120);
+		
+		g2d.setColor(new Color(230, 160, 103));
+		g2d.drawLine(400, 550, 400, 665);
+		g2d.drawLine(360, 550, 400, 550);
+		
+		g2d.setColor(new Color(225, 136, 81));
+		g2d.setStroke(new BasicStroke(3));
+		g2d.drawLine(402, 550, 402, 668);
+		g2d.fillRect(393, 554, 11, 11);
+		
+		g2d.setColor(new Color(248, 208, 153));
+		g2d.setStroke(new BasicStroke(5));
+		g2d.drawLine(360, 553, 390, 553);
+		g2d.fillRect(390, 551, 10, 10);
+		//Plataforma azul
+		this.drawPlataforma(g2d, 200, 400, 160, 270, new Color(88, 199, 244), new Color(8, 83, 177));
+		
+		//Sombra
+		g2d.setColor(new Color(6, 79, 178));
+		g2d.fillRect(250, 540, 30, 130);
+		
+		//Plataforma coral
+		this.drawPlataforma(g2d, 90, 510, 160, 160, new Color(249, 144, 77), new Color(107, 43, 10));
+		
+		//Plataforma verde
+		this.drawPlataforma(g2d, 645, 500, 355, 170, new Color(129, 184, 83), new Color(24, 56, 4));
+		
+		//Tuberia
+		float[] fracciones = {0.0f, 0.20f, 0.30f, 0.50f, 0.70f, 1.0f};
+		Color[] colores = {new Color(88, 143, 44), Color.WHITE, new Color(168, 224, 123),
+							new Color(129, 184, 83), new Color(88, 143, 45), new Color(47, 102, 4)};
+		LinearGradientPaint gradienteTuberia = new LinearGradientPaint(470, 550, 570, 550, fracciones, colores);
+		g2d.setPaint(gradienteTuberia);
+		
+		g2d.fillRect(470, 550, 100, 120);
+		g2d.fillRect(465, 500, 110, 50);
+		g2d.setPaint(null);
+		
+		//Bloques
+		this.drawBloque(g2d, 40, 300, 55);
+		this.drawBloque(g2d, 94, 300, 55);
+		//Bloque ?
+		this.drawBloque(g2d, 700, 300, 55);
+		g2d.setColor(Color.WHITE);
+		g2d.setFont(fuente);
+		g2d.drawString("?", 714, 343);
+		
+		//Mario y planta
+		Image mario = new ImageIcon("img/mario.png").getImage();
+		g2d.drawImage(mario, 400, 150, 90, 110, null);
+		
+		Image piranha = new ImageIcon("img/piranha.png").getImage();
+		g2d.drawImage(piranha, 470, 405, 100, 100, null);
+		
+		//Linea del suelo
+		g2d.setColor(Color.BLACK);
+		g2d.setStroke(new BasicStroke(5));
+		g2d.drawLine(0, 672, 1000, 672);
+	}
+	
+	private void drawPlataforma(Graphics2D g2d, int x, int y, int width, int height, Color colorPlataforma, Color colorSombreado) {
+		g2d.setColor(colorPlataforma);
+		g2d.fillRect(x, y, width, height);
+			
+		float[] fracciones = {0.50f, 1.0f};
+		Color[] colores = {colorPlataforma,  colorSombreado};
+		LinearGradientPaint gradiente = new LinearGradientPaint(x, y, x+width-10, y+height, fracciones, colores);
+		g2d.setPaint(gradiente);
+		g2d.setStroke(new BasicStroke(7));
+		g2d.drawRect(x, y, width, height);
+			
+		g2d.setPaint(null);
+		this.drawTuerca(g2d, x+5, y+5, 15);
+		this.drawTuerca(g2d, x+width-20, y+5, 15);
+		this.drawTuerca(g2d, x+5, y+height-20, 15);
+		this.drawTuerca(g2d, x+width-20, y+height-20, 15);
+	}
+	
+	private void drawTuerca(Graphics2D g2d, int x, int y, int radio) {
+		g2d.setColor(Color.WHITE);
+		g2d.fillOval(x, y, radio, radio);
+		g2d.setStroke(new BasicStroke(3));
+		g2d.setColor(Color.BLACK);
+		g2d.drawLine(x+3, y+radio-3, x+radio-3, y+3);
+		g2d.drawOval(x, y, radio, radio);
+	}
+
+	private void drawBloque(Graphics2D g2d, int x, int y, int size) {
+		g2d.setColor(new Color(192, 147, 7));
+		g2d.setStroke(new BasicStroke(4));
+		g2d.fillRoundRect(x, y, size, size, 20, 20);
+		
+		float[] fraccionesBloque = {0.20f, 1.0f};
+		Color[] coloresBloque = {new Color(192, 147, 7), new Color(145, 98, 6)};
+		LinearGradientPaint gradienteBloque = new LinearGradientPaint(x, y, x+size, y+size, fraccionesBloque, coloresBloque);
+		g2d.setPaint(gradienteBloque);
+		g2d.drawRoundRect(x, y, size, size, 20, 20);
+	}
 }
