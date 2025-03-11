@@ -13,6 +13,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -42,6 +44,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class Ventana extends JFrame{
@@ -60,10 +63,10 @@ public class Ventana extends JFrame{
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.add(login());
-//		this.add(registro());
+//		this.add(login());
+		this.add(registro());
 //		this.add(dashboard());
-		this.setJMenuBar(menu());
+//		this.setJMenuBar(menu());
 		
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -194,6 +197,26 @@ public class Ventana extends JFrame{
 		botonLogin.setFont(fuenteMediana);
 		botonLogin.setBounds(192, 250, 100, 30);
 		panelLogin.add(botonLogin);
+		botonLogin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(campoUsuario.getText().length() == 0 || campoUsuario.getText().chars().anyMatch(c -> c == ' ')) {
+					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				} else {
+					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+				}
+				
+				String paswd = new String(campoPassword.getPassword()); 
+				System.out.println(paswd);
+				if(paswd.length() < 6 || paswd.chars().anyMatch(c->c ==' ')) {
+					campoPassword.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				} else {
+					campoPassword.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+				}
+				
+			}
+		});
 		
 		JPanel panelInterfaz = new JPanel(new GridBagLayout());
 		panelInterfaz.add(panelImagen);
@@ -277,11 +300,13 @@ public class Ventana extends JFrame{
 		JRadioButton botonAceptar = new JRadioButton("Acepto los términos");
 		botonAceptar.setFont(fuenteChica);
 		botonAceptar.setBounds(140, 280, 120, 20);
+		botonAceptar.setActionCommand("Si");
 		panelRegistro.add(botonAceptar);
 		
 		JRadioButton botonRechazar = new JRadioButton("No acepto los términos");
 		botonRechazar.setFont(fuenteChica);
 		botonRechazar.setBounds(260, 280, 130, 20);
+		botonRechazar.setActionCommand("No");
 		panelRegistro.add(botonRechazar);
 		
 		ButtonGroup opcionesTerminos = new ButtonGroup();
@@ -309,6 +334,37 @@ public class Ventana extends JFrame{
 		botonRegistro.setFont(fuenteMediana);
 		botonRegistro.setBounds(182, 360, 120, 30);
 		panelRegistro.add(botonRegistro);
+		
+		botonRegistro.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(campoUsuario.getText().length() == 0 || campoUsuario.getText().chars().anyMatch(c -> c == ' ')) {
+					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				} else {
+					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+				}
+				
+				if(campoBio.getText().length() > 0 && campoBio.getText().length() < 5) {
+					campoBio.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				} else {
+					campoBio.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+				}
+				
+				if(!checkBoxDulce.isSelected() && !checkBoxSalado.isSelected() && !checkBoxSaludable.isSelected()) {
+					textoPreferencias.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+				} else {
+					textoPreferencias.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+				}
+				
+				if(opcionesTerminos.getSelection() == null || opcionesTerminos.getSelection().getActionCommand().equals("No")) {
+					textoTerminos.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+				} else {
+					textoTerminos.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+				}
+				
+			}
+		});
 		
 		panelRegistro.revalidate();
 		
@@ -414,49 +470,49 @@ public class Ventana extends JFrame{
 		return panelDashboard;
 	}
 	
-	public void paint(Graphics g) {
-		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
-		
-		g2d.setColor(Color.RED);
-		
-		g2d.drawRect(80, 80, 200, 200);
-		g2d.fillRect(100, 100, 100, 100);
-		g2d.clearRect(120, 120, 20, 20);
-		
-		g2d.setColor(Color.GREEN);
-		
-		g2d.fillRoundRect(200, 100 , 100, 100, 30, 30);
-		
-		g2d.setColor(Color.BLUE);
-		g2d.setStroke(new BasicStroke(5));
-		
-		g2d.drawLine(100, 100, 500, 300);
-		
-		g2d.drawOval(300, 150, 100, 70);
-		g2d.fillOval(300, 100, 50, 20);
-		
-		g2d.drawArc(50, 200, 100, 100, 0, -180);
-		g2d.fillArc(50, 170, 20, 20, 0, 360);
-		g2d.fillArc(130, 170, 20, 20, 0, 360);
-		
-		g2d.setColor(Color.BLACK);
-		g2d.setFont(new Font("Arial", Font.BOLD, 50));
-		g2d.drawString("HOLA", 200, 300);
-		
-		AffineTransform transform = AffineTransform.getTranslateInstance(200, 100);
-		transform.concatenate(AffineTransform.getScaleInstance(0.1, 0.1));
-		
-		g2d.drawImage(getIconImage(), transform, null);
-		
-		int[] xs = {100, 100, 250};
-		int[] ys = {100, 200, 250};
-		
-		g2d.drawPolygon(xs, ys, 3);
-		
-		int[] xs2 = {500, 450, 500};
-		int[] ys2 = {300, 220, 150};
-		
-		g2d.fillPolygon(xs2, ys2, 3);
-	}
+//	public void paint(Graphics g) {
+//		super.paint(g);
+//		Graphics2D g2d = (Graphics2D) g;
+//		
+//		g2d.setColor(Color.RED);
+//		
+//		g2d.drawRect(80, 80, 200, 200);
+//		g2d.fillRect(100, 100, 100, 100);
+//		g2d.clearRect(120, 120, 20, 20);
+//		
+//		g2d.setColor(Color.GREEN);
+//		
+//		g2d.fillRoundRect(200, 100 , 100, 100, 30, 30);
+//		
+//		g2d.setColor(Color.BLUE);
+//		g2d.setStroke(new BasicStroke(5));
+//		
+//		g2d.drawLine(100, 100, 500, 300);
+//		
+//		g2d.drawOval(300, 150, 100, 70);
+//		g2d.fillOval(300, 100, 50, 20);
+//		
+//		g2d.drawArc(50, 200, 100, 100, 0, -180);
+//		g2d.fillArc(50, 170, 20, 20, 0, 360);
+//		g2d.fillArc(130, 170, 20, 20, 0, 360);
+//		
+//		g2d.setColor(Color.BLACK);
+//		g2d.setFont(new Font("Arial", Font.BOLD, 50));
+//		g2d.drawString("HOLA", 200, 300);
+//		
+//		AffineTransform transform = AffineTransform.getTranslateInstance(200, 100);
+//		transform.concatenate(AffineTransform.getScaleInstance(0.1, 0.1));
+//		
+//		g2d.drawImage(getIconImage(), transform, null);
+//		
+//		int[] xs = {100, 100, 250};
+//		int[] ys = {100, 200, 250};
+//		
+//		g2d.drawPolygon(xs, ys, 3);
+//		
+//		int[] xs2 = {500, 450, 500};
+//		int[] ys2 = {300, 220, 150};
+//		
+//		g2d.fillPolygon(xs2, ys2, 3);
+//	}
 }
