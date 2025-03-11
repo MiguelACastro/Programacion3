@@ -36,6 +36,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -56,6 +57,9 @@ public class Ventana extends JFrame{
 	private Font fuenteTitulo = new Font("Cambria", Font.BOLD, 36);
 	private Font fuenteSubtitulo = fuenteTitulo.deriveFont(32f);
 	
+	private String usuario = "Osy";
+	private String password = "MAP0803";
+	
 	public Ventana(String titulo) {
 		this.setTitle(titulo);
 		this.setIconImage(new ImageIcon("img/logo.png").getImage());		
@@ -63,8 +67,8 @@ public class Ventana extends JFrame{
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-//		this.add(login());
-		this.add(registro());
+		this.add(login());
+//		this.add(registro());
 //		this.add(dashboard());
 //		this.setJMenuBar(menu());
 		
@@ -201,18 +205,30 @@ public class Ventana extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				boolean flag1 = false;;
+				boolean flag2 = false;;
 				if(campoUsuario.getText().length() == 0 || campoUsuario.getText().chars().anyMatch(c -> c == ' ')) {
 					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 				} else {
 					campoUsuario.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flag1 = true;
 				}
 				
 				String paswd = new String(campoPassword.getPassword()); 
-				System.out.println(paswd);
 				if(paswd.length() < 6 || paswd.chars().anyMatch(c->c ==' ')) {
 					campoPassword.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 				} else {
 					campoPassword.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+					flag2 = true;
+				}
+				
+				if(flag1 && flag2) {
+					if(campoUsuario.getText().equals(usuario) && paswd.equals(password)) {
+						JOptionPane.showMessageDialog(null, "Bienvenido!", "Credenciales correctas", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Credenciales incorrectas", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 				
 			}
