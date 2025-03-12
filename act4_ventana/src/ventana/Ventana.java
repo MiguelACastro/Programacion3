@@ -3,6 +3,7 @@ package ventana;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -15,6 +16,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,6 +25,7 @@ import java.io.IOException;
 import java.util.concurrent.Flow;
 
 import javax.imageio.ImageIO;
+import javax.print.attribute.standard.JobOriginatingUserName;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -60,6 +64,9 @@ public class Ventana extends JFrame{
 	private String usuario = "Osy";
 	private String password = "MAP0803";
 	
+	public static final int LOGIN = 0;
+	public static final int REGISTRO = 1;
+	
 	public Ventana(String titulo) {
 		this.setTitle(titulo);
 		this.setIconImage(new ImageIcon("img/logo.png").getImage());		
@@ -70,7 +77,7 @@ public class Ventana extends JFrame{
 		this.add(login());
 //		this.add(registro());
 //		this.add(dashboard());
-//		this.setJMenuBar(menu());
+		this.setJMenuBar(menu());
 		
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -184,10 +191,46 @@ public class Ventana extends JFrame{
 		panelLogin.add(campoPassword);
 		panelLogin.add(Box.createRigidArea(new Dimension(0, 5)));
 		
+		JPanel panelEtiquetas = new JPanel();
+		
 		JLabel etiquetaRecuperacion= new JLabel("¿Olvidó su contraseña?");
 		etiquetaRecuperacion.setFont(fuenteChica);
 		etiquetaRecuperacion.setBounds(250, 210, 120, 20);
-		panelLogin.add(etiquetaRecuperacion);
+		panelEtiquetas.add(etiquetaRecuperacion);
+		panelEtiquetas.add(Box.createHorizontalStrut(50));
+		
+		
+		JLabel etiquetaCrearCuenta = new JLabel("Crear cuenta");
+		etiquetaCrearCuenta.setFont(fuenteChica);
+		etiquetaCrearCuenta.setBounds(250, 210, 120, 20);
+		panelEtiquetas.add(etiquetaCrearCuenta);
+		
+		JFrame frame = this;
+		etiquetaCrearCuenta.addMouseListener(new MouseListener() {
+			
+			
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				etiquetaCrearCuenta.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				manager(REGISTRO);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mousePressed(MouseEvent e) {}
+		});
+		
+		
+		panelEtiquetas.setAlignmentX(LEFT_ALIGNMENT);
+		panelLogin.add(panelEtiquetas);
 		panelLogin.add(Box.createRigidArea(new Dimension(0, 10)));
 		
 		JCheckBox recordar = new JCheckBox("Recordarme");
@@ -382,6 +425,34 @@ public class Ventana extends JFrame{
 			}
 		});
 		
+		JLabel etiquetaCrearCuenta = new JLabel("¿Ya tiene una cuenta? Iniciar sesión");
+		etiquetaCrearCuenta.setFont(fuenteChica);
+		etiquetaCrearCuenta.setBounds(170, 400, 160, 20);
+		panelRegistro.add(etiquetaCrearCuenta);
+		
+		JFrame frame = this;
+		etiquetaCrearCuenta.addMouseListener(new MouseListener() {
+			
+			
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				etiquetaCrearCuenta.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				manager(LOGIN);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mousePressed(MouseEvent e) {}
+		});
+		
 		panelRegistro.revalidate();
 		
 		return panelRegistro;		
@@ -484,6 +555,27 @@ public class Ventana extends JFrame{
 		panelDashboard.add(scrollPane, reglas);
 		
 		return panelDashboard;
+	}
+	
+	public void manager(int target) {
+		this.getContentPane().removeAll();
+		if(target == LOGIN) {
+			this.add(login());
+			this.setMinimumSize(new Dimension(500, 500));
+			this.pack();
+			this.setLocationRelativeTo(null);
+			this.setMinimumSize(getMinimumSize());
+			this.setPreferredSize(getPreferredSize());
+			this.revalidate();
+			this.repaint();
+		}
+		else if(target == REGISTRO) {
+			this.add(registro());
+			this.setMinimumSize(new Dimension(500, 500));
+			this.setSize(500, 500);
+			this.setLocationRelativeTo(null);
+			this.revalidate();
+		}
 	}
 	
 //	public void paint(Graphics g) {
