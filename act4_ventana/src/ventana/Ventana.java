@@ -114,6 +114,27 @@ public class Ventana extends JFrame{
 		
 		barra.add(menuAyuda);
 		
+		JMenu menuCuenta = new JMenu("Cuenta");
+		JMenuItem opcionLogin = new JMenuItem("Login");
+		opcionLogin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(LOGIN);
+			}
+		});
+		JMenuItem opcionRegistro = new JMenuItem("Registro");
+		opcionRegistro.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(REGISTRO);
+			}
+		});
+		menuCuenta.add(opcionLogin);
+		menuCuenta.add(opcionRegistro);
+		barra.add(menuCuenta);
+		
 		return barra;
 	}
 	public JPanel login() {
