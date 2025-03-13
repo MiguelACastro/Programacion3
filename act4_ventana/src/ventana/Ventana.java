@@ -66,6 +66,13 @@ public class Ventana extends JFrame{
 	
 	public static final int LOGIN = 0;
 	public static final int REGISTRO = 1;
+	public static final int RECUPERACION = 2;
+	public static final int ALTA_USUARIO = 3;
+	public static final int BAJA_USUARIO = 4;
+	public static final int CONSULTA_USUARIO = 5;
+	public static final int AYUDA_CREAR_USUARIO = 6;
+	public static final int AYUDA_ACCESO = 7;
+	public static final int AYUDA_RECUPERACION = 8;
 	
 	public Ventana(String titulo) {
 		this.setTitle(titulo);
@@ -110,9 +117,6 @@ public class Ventana extends JFrame{
 		
 		barra.add(menuArchivo);
 		
-		JMenu menuAyuda = new JMenu("Ayuda");
-		
-		barra.add(menuAyuda);
 		
 		JMenu menuCuenta = new JMenu("Cuenta");
 		JMenuItem opcionLogin = new JMenuItem("Login");
@@ -131,9 +135,81 @@ public class Ventana extends JFrame{
 				manager(REGISTRO);
 			}
 		});
+		JMenuItem opcionRecuperacion = new JMenuItem("Recuperar cuenta");
+		opcionRecuperacion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(RECUPERACION);
+			}
+		});
 		menuCuenta.add(opcionLogin);
 		menuCuenta.add(opcionRegistro);
+		menuCuenta.add(opcionRecuperacion);
+		
+		JMenu menuUsuario = new JMenu("Usuario");
+		
+		
+		JMenuItem opcionAlta = new JMenuItem("Alta");
+		opcionAlta.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(ALTA_USUARIO);
+			}
+		});
+		JMenuItem opcionBaja = new JMenuItem("Baja");
+		opcionBaja.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(BAJA_USUARIO);
+			}
+		});
+		JMenuItem opcionConsulta = new JMenuItem("Consulta");
+		opcionConsulta.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(CONSULTA_USUARIO);
+			}
+		});
+		menuUsuario.add(opcionAlta);
+		menuUsuario.add(opcionBaja);
+		menuUsuario.add(opcionConsulta);
+		
+		JMenu menuAyuda = new JMenu("Ayuda");
+		JMenuItem opcionAyudaCrearCuenta = new JMenuItem("¿Cómo crear un usuario?");
+		opcionAyudaCrearCuenta.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(AYUDA_CREAR_USUARIO);
+			}
+		});
+		JMenuItem opcionAyudaAcceso = new JMenuItem("¿Cómo acceder al sistema?");
+		opcionAyudaAcceso.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(AYUDA_ACCESO);
+			}
+		});
+		JMenuItem opcionAyudaRecuperacion = new JMenuItem("¿Qué pasa si olvidé mi contraseña?");
+		opcionAyudaRecuperacion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manager(AYUDA_RECUPERACION);
+			}
+		});
+		menuAyuda.add(opcionAyudaCrearCuenta);
+		menuAyuda.add(opcionAyudaAcceso);
+		menuAyuda.add(opcionAyudaRecuperacion);
+		
 		barra.add(menuCuenta);
+		barra.add(menuUsuario);
+		barra.add(menuAyuda);
 		
 		return barra;
 	}
@@ -479,6 +555,30 @@ public class Ventana extends JFrame{
 		return panelRegistro;		
 	}
 	
+	public JPanel recuperacion() {
+		JPanel panelRecuperacion = new JPanel(new BorderLayout());
+		JLabel titulo = new JLabel("Recuperar cuenta");
+		titulo.setFont(fuenteTitulo);
+		panelRecuperacion.add(titulo, BorderLayout.NORTH);
+		return panelRecuperacion;
+	}
+	
+	public JPanel alta() {
+		JPanel panelAlta = new JPanel(new BorderLayout());
+		JLabel titulo = new JLabel("Dar de alta usuario");
+		titulo.setFont(fuenteTitulo);
+		panelAlta.add(titulo, BorderLayout.NORTH);
+		return panelAlta;
+	}
+	
+	public JPanel baja() {
+		JPanel panelBaja = new JPanel(new BorderLayout());
+		JLabel titulo = new JLabel("Dar de baja usuario");
+		titulo.setFont(fuenteTitulo);
+		panelBaja.add(titulo, BorderLayout.NORTH);
+		return panelBaja;
+	}
+	
 	public JPanel dashboard() {
 		JPanel panelDashboard = new JPanel(new GridBagLayout());
 		panelDashboard.setBorder(new EmptyBorder(0, 20, 20, 20));
@@ -564,7 +664,7 @@ public class Ventana extends JFrame{
 		JTable tabla = new JTable(datos, nombreColumnas);
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(tabla);
-		scrollPane.setPreferredSize(new Dimension(400, 260));
+		scrollPane.setMinimumSize(new Dimension(500, 200));
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setBackground(Color.CYAN);
 		reglas.gridx = 0;
@@ -578,25 +678,70 @@ public class Ventana extends JFrame{
 		return panelDashboard;
 	}
 	
+	public JPanel ayudaCrearCuenta() {
+		JPanel panelAyuda = new JPanel(new BorderLayout());
+		JLabel titulo = new JLabel("¿Cómo crear un usuario?");
+		titulo.setFont(fuenteTitulo);
+		panelAyuda.add(titulo, BorderLayout.NORTH);
+		return panelAyuda;
+	}
+	
+	public JPanel ayudaAcceso() {
+		JPanel panelAyuda = new JPanel(new BorderLayout());
+		JLabel titulo = new JLabel("¿Cómo acceder al sistema?");
+		titulo.setFont(fuenteTitulo);
+		panelAyuda.add(titulo, BorderLayout.NORTH);
+		return panelAyuda;
+	}
+	
+	public JPanel ayudaRecuperacion() {
+		JPanel panelAyuda = new JPanel(new BorderLayout());
+		JLabel titulo = new JLabel("¿Qué pasa si olvidé mi contraseña?");
+		titulo.setFont(fuenteTitulo);
+		panelAyuda.add(titulo, BorderLayout.NORTH);
+		return panelAyuda;
+	}
+	
 	public void manager(int target) {
 		this.getContentPane().removeAll();
-		if(target == LOGIN) {
+		this.setMinimumSize(new Dimension(600, 600));
+		switch (target) {
+		case LOGIN:
 			this.add(login());
-			this.setMinimumSize(new Dimension(500, 500));
-			this.pack();
-			this.setLocationRelativeTo(null);
-			this.setMinimumSize(getMinimumSize());
-			this.setPreferredSize(getPreferredSize());
-			this.revalidate();
-			this.repaint();
-		}
-		else if(target == REGISTRO) {
+			break;
+		case REGISTRO:
 			this.add(registro());
-			this.setMinimumSize(new Dimension(500, 500));
-			this.setSize(500, 500);
-			this.setLocationRelativeTo(null);
-			this.revalidate();
+			break;
+		case RECUPERACION:
+			this.add(recuperacion());
+			break;
+		case ALTA_USUARIO:
+			this.add(alta());
+			break;
+		case BAJA_USUARIO:
+			this.add(baja());
+			break;
+		case CONSULTA_USUARIO:
+			this.add(dashboard());
+			break;
+		case AYUDA_CREAR_USUARIO:
+			this.add(ayudaCrearCuenta());
+			break;
+		case AYUDA_ACCESO:
+			this.add(ayudaAcceso());
+			break;
+		case AYUDA_RECUPERACION:
+			this.add(ayudaRecuperacion());
+			break;
+		default:
+			break;
 		}
+		this.pack();
+		this.setLocationRelativeTo(null);
+		this.setMinimumSize(getMinimumSize());
+		this.setPreferredSize(getPreferredSize());
+		this.revalidate();
+		
 	}
 	
 //	public void paint(Graphics g) {
