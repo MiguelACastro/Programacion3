@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class VentanaBotones extends JFrame{
@@ -34,11 +35,19 @@ public class VentanaBotones extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				Random rng = new Random(System.currentTimeMillis());
 				
-				JButton nuevoBoton = new JButton("click me");
+				JButton nuevoBoton = new JButton();
 				nuevoBoton.setLocation(rng.nextInt(600), rng.nextInt(600));
 				nuevoBoton.setSize(rng.nextInt(50, 100), rng.nextInt(50, 100));
 				nuevoBoton.setBackground(new Color(rng.nextInt(256), rng.nextInt(256), rng.nextInt(256)));
-				
+				nuevoBoton.setText(String.valueOf(rng.nextDouble(Double.MAX_VALUE)));
+				nuevoBoton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JButton boton = (JButton) e.getSource();
+						JOptionPane.showMessageDialog(frame, boton.getText());
+					}
+				});
 				panelBotones.add(nuevoBoton);
 				
 				frame.repaint();
