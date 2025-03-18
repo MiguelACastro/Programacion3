@@ -1,7 +1,6 @@
 package ventana;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -45,7 +44,11 @@ public class VentanaBotones extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						JButton boton = (JButton) e.getSource();
-						JOptionPane.showMessageDialog(frame, boton.getText());
+						int opcion = JOptionPane.showConfirmDialog(frame, "¿Borrar boton?", boton.getText(), JOptionPane.YES_NO_OPTION);
+						if(opcion == JOptionPane.YES_OPTION) {
+							panelBotones.remove(boton);
+							frame.repaint();
+						}
 					}
 				});
 				panelBotones.add(nuevoBoton);
