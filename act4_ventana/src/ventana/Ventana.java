@@ -3,6 +3,7 @@ package ventana;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -30,6 +31,8 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -49,8 +52,12 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout;
+import javax.swing.table.DefaultTableModel;
 
 public class Ventana extends JFrame{
 	
@@ -559,22 +566,275 @@ public class Ventana extends JFrame{
 		JPanel panelRecuperacion = new JPanel(new BorderLayout());
 		JLabel titulo = new JLabel("Recuperar cuenta");
 		titulo.setFont(fuenteTitulo);
+		titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		panelRecuperacion.add(titulo, BorderLayout.NORTH);
+		
+		JPanel panelDatos = new JPanel();
+		panelDatos.setBorder(BorderFactory.createEmptyBorder(50, 200, 50, 200));;
+		panelDatos.setLayout(new BoxLayout(panelDatos, BoxLayout.Y_AXIS));
+		panelRecuperacion.add(panelDatos, BorderLayout.CENTER);
+
+		JLabel etiquetaCorreo = new JLabel("Correo Electronico");
+		etiquetaCorreo.setFont(fuenteMediana);
+		etiquetaCorreo.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panelDatos.add(etiquetaCorreo);
+		panelDatos.add(Box.createVerticalStrut(10));
+	
+		JTextField campoCorreo = new JTextField(10);
+		campoCorreo.setAlignmentX(Component.CENTER_ALIGNMENT);
+		campoCorreo.setMaximumSize(new Dimension(500, 30));
+		panelDatos.add(campoCorreo);
+		panelDatos.add(Box.createVerticalStrut(15));
+		
+		JButton botonEnviar = new JButton("Enviar correo de recuperación");
+		botonEnviar.setBackground(Color.LIGHT_GRAY);
+		botonEnviar.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panelDatos.add(botonEnviar);
+		
 		return panelRecuperacion;
 	}
 	
 	public JPanel alta() {
 		JPanel panelAlta = new JPanel(new BorderLayout());
-		JLabel titulo = new JLabel("Dar de alta usuario");
-		titulo.setFont(fuenteTitulo);
+		setSize(new Dimension(600, 600));
+		setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelTabla = new JPanel();
+		panelTabla.setBackground(Color.CYAN);
+		panelTabla.setBorder(new EmptyBorder(20, 0, 20, 0));
+		panelAlta.add(panelTabla, BorderLayout.SOUTH);
+	
+		JTable tabla = new JTable();
+		tabla.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false}
+			},
+			new String[] {
+					"Nombre", "Apellido", "Deporte", "Edad", "Vegetariano"
+			}
+		));
+		
+		JScrollPane scrollPane = new JScrollPane(tabla);
+		scrollPane.setPreferredSize(new Dimension(500, 200));
+		panelTabla.add(scrollPane);
+		
+		JPanel panelDatos = new JPanel();
+		panelDatos.setBackground(Color.CYAN);
+		panelAlta.add(panelDatos, BorderLayout.CENTER);
+		
+		JLabel etiquetaNombre = new JLabel("Nombre:");
+		
+		JTextField campoNombre = new JTextField();
+		campoNombre.setColumns(10);
+		
+		JLabel etiquetaApellidos = new JLabel("Apellidos");
+		
+		JTextField campoApellidos = new JTextField();
+		campoApellidos.setColumns(10);
+		
+		
+		JLabel etiquetaDeporte = new JLabel("Deporte");
+		
+		JTextField campoDeporte = new JTextField();
+		campoDeporte.setColumns(10);
+		
+		JLabel etiquetaVegetariano = new JLabel("Vegetariano");
+		
+		JLabel etiquetaEdad = new JLabel("Edad");
+		
+		JTextField campoEdad = new JTextField();
+		campoEdad.setColumns(10);
+		
+		String[] opc = {"Si", "No"};
+		JComboBox<String> comboBoxVegetariano = new JComboBox<String>(opc);
+		
+		JButton botonAñadir = new JButton("Añadir");
+		botonAñadir.setBackground(Color.LIGHT_GRAY);
+		GroupLayout gl_panelDatos = new GroupLayout(panelDatos);
+		gl_panelDatos.setHorizontalGroup(
+			gl_panelDatos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDatos.createSequentialGroup()
+					.addGap(59)
+					.addGroup(gl_panelDatos.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelDatos.createSequentialGroup()
+							.addComponent(etiquetaDeporte, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(campoDeporte, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelDatos.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_panelDatos.createSequentialGroup()
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(etiquetaApellidos, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(campoApellidos, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panelDatos.createSequentialGroup()
+								.addComponent(etiquetaNombre)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(campoNombre, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_panelDatos.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panelDatos.createSequentialGroup()
+								.addComponent(etiquetaEdad, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(campoEdad, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panelDatos.createSequentialGroup()
+								.addComponent(etiquetaVegetariano, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addGroup(gl_panelDatos.createParallelGroup(Alignment.LEADING)
+									.addComponent(botonAñadir)
+									.addComponent(comboBoxVegetariano, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+					.addGap(291))
+		);
+		gl_panelDatos.setVerticalGroup(
+			gl_panelDatos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDatos.createSequentialGroup()
+					.addGroup(gl_panelDatos.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelDatos.createSequentialGroup()
+							.addGap(51)
+							.addGroup(gl_panelDatos.createParallelGroup(Alignment.BASELINE)
+								.addComponent(etiquetaNombre)
+								.addComponent(campoNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(21)
+							.addGroup(gl_panelDatos.createParallelGroup(Alignment.BASELINE)
+								.addComponent(etiquetaApellidos)
+								.addComponent(campoApellidos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(24)
+							.addGroup(gl_panelDatos.createParallelGroup(Alignment.BASELINE)
+								.addComponent(etiquetaDeporte)
+								.addComponent(campoDeporte, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_panelDatos.createSequentialGroup()
+							.addGap(177)
+							.addGroup(gl_panelDatos.createParallelGroup(Alignment.BASELINE)
+								.addComponent(etiquetaEdad)
+								.addComponent(campoEdad, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(18)
+					.addGroup(gl_panelDatos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(etiquetaVegetariano)
+						.addComponent(comboBoxVegetariano, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(31)
+					.addComponent(botonAñadir)
+					.addGap(58))
+		);
+		panelDatos.setLayout(gl_panelDatos);
+		
+		JLabel titulo = new JLabel("Alta de usuario");
+		titulo.setOpaque(true);
+		titulo.setFont(new Font("Cambria", Font.BOLD, 34));
+		titulo.setHorizontalAlignment(SwingConstants.CENTER);
+		titulo.setBackground(Color.CYAN);
 		panelAlta.add(titulo, BorderLayout.NORTH);
 		return panelAlta;
 	}
 	
 	public JPanel baja() {
 		JPanel panelBaja = new JPanel(new BorderLayout());
-		JLabel titulo = new JLabel("Dar de baja usuario");
-		titulo.setFont(fuenteTitulo);
+		setSize(new Dimension(600, 600));
+		setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelTabla = new JPanel();
+		panelTabla.setBackground(Color.CYAN);
+		panelTabla.setBorder(new EmptyBorder(20, 0, 20, 0));
+		panelBaja.add(panelTabla, BorderLayout.SOUTH);
+	
+		JTable tabla = new JTable();
+		tabla.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false},
+				{"Juan", "Perez", "Futbol", 19, false}
+			},
+			new String[] {
+					"Nombre", "Apellido", "Deporte", "Edad", "Vegetariano"
+			}
+		));
+		
+		JScrollPane scrollPane = new JScrollPane(tabla);
+		scrollPane.setPreferredSize(new Dimension(500, 200));
+		panelTabla.add(scrollPane);
+		
+		JPanel panelDatos = new JPanel();
+		panelDatos.setBackground(Color.CYAN);
+		panelBaja.add(panelDatos, BorderLayout.CENTER);
+		
+		JLabel etiquetaNombre = new JLabel("Nombre:");
+		
+		JTextField campoNombre = new JTextField();
+		campoNombre.setColumns(10);
+		
+		JButton botonEliminar = new JButton("Eliminar");
+		botonEliminar.setBackground(Color.LIGHT_GRAY);
+		
+		GroupLayout gl_panelDatos = new GroupLayout(panelDatos);
+		gl_panelDatos.setHorizontalGroup(
+			gl_panelDatos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDatos.createSequentialGroup()
+					.addGap(59)
+					.addGroup(gl_panelDatos.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panelDatos.createSequentialGroup()
+								.addComponent(etiquetaNombre)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(campoNombre, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)))
+								.addGap(18)
+								.addGroup(gl_panelDatos.createParallelGroup(Alignment.LEADING)
+									.addComponent(botonEliminar)
+					.addGap(291))
+		));
+		gl_panelDatos.setVerticalGroup(
+			gl_panelDatos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDatos.createSequentialGroup()
+					.addGroup(gl_panelDatos.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelDatos.createSequentialGroup()
+							.addGap(51)
+							.addGroup(gl_panelDatos.createParallelGroup(Alignment.BASELINE)
+								.addComponent(etiquetaNombre)
+								.addComponent(campoNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(31)
+					.addComponent(botonEliminar)
+					.addGap(58))
+		)));
+		panelDatos.setLayout(gl_panelDatos);
+		
+		JLabel titulo = new JLabel("Baja de usuario");
+		titulo.setOpaque(true);
+		titulo.setFont(new Font("Cambria", Font.BOLD, 34));
+		titulo.setHorizontalAlignment(SwingConstants.CENTER);
+		titulo.setBackground(Color.CYAN);
 		panelBaja.add(titulo, BorderLayout.NORTH);
 		return panelBaja;
 	}
@@ -680,25 +940,104 @@ public class Ventana extends JFrame{
 	
 	public JPanel ayudaCrearCuenta() {
 		JPanel panelAyuda = new JPanel(new BorderLayout());
+		
+		JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JLabel titulo = new JLabel("¿Cómo crear un usuario?");
 		titulo.setFont(fuenteTitulo);
-		panelAyuda.add(titulo, BorderLayout.NORTH);
+		panelTitulo.add(titulo);
+		
+		panelAyuda.add(panelTitulo, BorderLayout.NORTH);
+		
+		JPanel panelInstrucciones = new JPanel();
+		panelInstrucciones.setLayout(new BoxLayout(panelInstrucciones, BoxLayout.Y_AXIS));
+		panelInstrucciones.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+		
+		JLabel instrucciones1 = new JLabel("1. Dar clic en la pestaña de \"Usuario\" en el menú");
+		instrucciones1.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones1);
+		
+		JLabel instrucciones2 = new JLabel("2. Dar clic en \"Registro\"");
+		instrucciones2.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones2);
+		
+		JLabel instrucciones3 = new JLabel("3. LLenar los campos");
+		instrucciones3.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones3);
+		
+		JLabel instrucciones4 = new JLabel("4. Dar clic en el botón de crear cuenta");
+		instrucciones4.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones4);
+		
+		panelAyuda.add(panelInstrucciones, BorderLayout.CENTER);
 		return panelAyuda;
 	}
 	
 	public JPanel ayudaAcceso() {
 		JPanel panelAyuda = new JPanel(new BorderLayout());
-		JLabel titulo = new JLabel("¿Cómo acceder al sistema?");
+		
+		JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JLabel titulo = new JLabel("¿Cómo acceder al sistema");
 		titulo.setFont(fuenteTitulo);
-		panelAyuda.add(titulo, BorderLayout.NORTH);
+		panelTitulo.add(titulo);
+		
+		panelAyuda.add(panelTitulo, BorderLayout.NORTH);
+		
+		JPanel panelInstrucciones = new JPanel();
+		panelInstrucciones.setLayout(new BoxLayout(panelInstrucciones, BoxLayout.Y_AXIS));
+		panelInstrucciones.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+		
+		JLabel instrucciones1 = new JLabel("1. Si no tiene una cuenta, cree una");
+		instrucciones1.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones1);
+		
+		JLabel instrucciones2 = new JLabel("2. Dar clic en la pestaña \"Usuario\" en el menú");
+		instrucciones2.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones2);
+		
+		JLabel instrucciones3 = new JLabel("3. Dar clic en \"Login\"");
+		instrucciones3.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones3);
+		
+		JLabel instrucciones4 = new JLabel("4. Coloque su usuario y su contraseña");
+		instrucciones4.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones4);
+		
+		panelAyuda.add(panelInstrucciones, BorderLayout.CENTER);
+		
 		return panelAyuda;
 	}
 	
 	public JPanel ayudaRecuperacion() {
 		JPanel panelAyuda = new JPanel(new BorderLayout());
-		JLabel titulo = new JLabel("¿Qué pasa si olvidé mi contraseña?");
+		
+		JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JLabel titulo = new JLabel("¿Qué pasa si olvide mi contraseña?");
 		titulo.setFont(fuenteTitulo);
-		panelAyuda.add(titulo, BorderLayout.NORTH);
+		panelTitulo.add(titulo);
+		
+		panelAyuda.add(panelTitulo, BorderLayout.NORTH);
+		
+		JPanel panelInstrucciones = new JPanel();
+		panelInstrucciones.setLayout(new BoxLayout(panelInstrucciones, BoxLayout.Y_AXIS));
+		panelInstrucciones.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+		
+		JLabel instrucciones1 = new JLabel("1. Dar clic en la pestaña \"Usuario\" en el menú");
+		instrucciones1.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones1);
+		
+		JLabel instrucciones2 = new JLabel("2. Dar clic en \"Recuperar cuenta\"");
+		instrucciones2.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones2);
+		
+		JLabel instrucciones3 = new JLabel("3. Ingrese su correo");
+		instrucciones3.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones3);
+		
+		JLabel instrucciones4 = new JLabel("4. Siga los pasos del correo que le llegará");
+		instrucciones4.setFont(fuenteGrande);
+		panelInstrucciones.add(instrucciones4);
+		
+		panelAyuda.add(panelInstrucciones, BorderLayout.CENTER);
 		return panelAyuda;
 	}
 	
@@ -740,8 +1079,7 @@ public class Ventana extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setMinimumSize(getMinimumSize());
 		this.setPreferredSize(getPreferredSize());
-		this.revalidate();
-		
+		this.revalidate();	
 	}
 	
 //	public void paint(Graphics g) {
