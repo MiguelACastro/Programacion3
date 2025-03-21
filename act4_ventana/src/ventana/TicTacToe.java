@@ -48,12 +48,10 @@ public class TicTacToe extends JFrame{
 	}
 
 	private void loadIcons() {
-		ClassLoader cl = this.getClass().getClassLoader();
-		
-		URL UrlX = cl.getResource("x.png");
+		URL UrlX = this.getClass().getResource("x.png");
 		Image imgX = new ImageIcon(UrlX).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 		
-		URL UrlO = cl.getResource("o.png");
+		URL UrlO = this.getClass().getResource("o.png");
 		Image imgO = new ImageIcon(UrlO).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 		
 		jugadores[0] = new ImageIcon(imgX);
