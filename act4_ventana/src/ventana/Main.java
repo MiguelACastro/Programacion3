@@ -7,7 +7,9 @@ public class Main {
 //		VentanaCalculadora calculadora = new VentanaCalculadora();
 //		VentanaGraphics ventanaGrafica = new VentanaGraphics();
 //		VentanaBotones botones = new VentanaBotones();
-		TicTacToe gato = new TicTacToe();
+//		TicTacToe gato = new TicTacToe();
+		RompecabezasNumerico rompecabezas = new RompecabezasNumerico();
 	}
+	
 
 }
