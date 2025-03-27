@@ -8,7 +8,8 @@ public class Main {
 //		VentanaGraphics ventanaGrafica = new VentanaGraphics();
 //		VentanaBotones botones = new VentanaBotones();
 //		TicTacToe gato = new TicTacToe();
-		RompecabezasNumerico rompecabezas = new RompecabezasNumerico();
+//		RompecabezasNumerico rompecabezas = new RompecabezasNumerico();
+		VentanaPaint paint = new VentanaPaint();
 	}
 	
 
