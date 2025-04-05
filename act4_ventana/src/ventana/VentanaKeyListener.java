@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 public class VentanaKeyListener extends JFrame implements KeyListener{
 
 	private int x = 235, y=235;
+	private PaintPanel panelMovimiento;
 	
 	public VentanaKeyListener() {
 		this.setTitle("");
@@ -46,7 +47,7 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 		etiquetaTiempo.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panelTiempo.add(etiquetaTiempo);
 		
-		PaintPanel panelMovimiento = new PaintPanel();
+		panelMovimiento = new PaintPanel();
 		panelMovimiento.setPreferredSize(new Dimension(500,500));
 		panelMovimiento.setMinimumSize(new Dimension(500,500));
 		panelMovimiento.addKeyListener(this);
@@ -63,6 +64,9 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				x = 235;
+				y = 235;
+				repaint();
 				panelMovimiento.requestFocusInWindow();
 			}
 		});
@@ -82,20 +86,32 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 		int codigo = e.getKeyCode();
 		System.out.println(codigo);
 		if(codigo == KeyEvent.VK_W || codigo == KeyEvent.VK_UP) {
-			y-=5;
-			
+			if(y <= -30) {
+				y = panelMovimiento.getHeight();
+			} else {				
+				y-=5;
+			}	
 		}
 		else if(codigo == KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT) {
-			x-=5;
-			
+			if(x <= -30) {
+				x = panelMovimiento.getWidth();
+			} else {				
+				x-=5;
+			}
 		}
 		else if(codigo == KeyEvent.VK_S || codigo == KeyEvent.VK_DOWN) {
-			y+=5;
-			
+			if(y >= panelMovimiento.getHeight()+30) {
+				y = 0;
+			} else {				
+				y+=5;
+			}
 		}
 		else if(codigo == KeyEvent.VK_D|| codigo == KeyEvent.VK_RIGHT) {
-			x+=5;
-			
+			if(x >= panelMovimiento.getWidth()+30) {
+				x = 0;
+			} else {				
+				x+=5;
+			}
 		}
 		this.repaint();
 	}
