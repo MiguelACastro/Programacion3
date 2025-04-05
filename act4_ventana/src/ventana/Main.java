@@ -9,7 +9,8 @@ public class Main {
 //		VentanaBotones botones = new VentanaBotones();
 //		TicTacToe gato = new TicTacToe();
 //		RompecabezasNumerico rompecabezas = new RompecabezasNumerico();
-		VentanaPaint paint = new VentanaPaint();
+//		VentanaPaint paint = new VentanaPaint();
+		VentanaKeyListener movimiento = new VentanaKeyListener();
 	}
 	
 
