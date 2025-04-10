@@ -21,12 +21,23 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class VentanaKeyListener extends JFrame implements KeyListener{
 
 	private PaintPanel panelMovimiento;
 	private Player jugador = new Player(235, 235, 30, 30, Color.GREEN);
 	private ArrayList<Player> paredes = new ArrayList<Player>();
+	private int direccionMovimiento;
+	
+	private Timer cronometro;
+	private int segundos = 0;
+	private int minutos = 0;
+	private int horas = 0;
+	
+	private Timer movimiento;
+	private final int ACTUALIZACIONES_POR_SEGUNDO = 120;
+	private final int MS_PER_UPDATE = 1000/ACTUALIZACIONES_POR_SEGUNDO;
 	
 	public VentanaKeyListener() {
 		this.setTitle("");
@@ -38,6 +49,14 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 		
 		this.setMinimumSize(getMinimumSize());
 		this.setPreferredSize(getPreferredSize());;
+		
+		movimiento = new Timer(MS_PER_UPDATE, new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actualizar();
+				repaint();
+			}
+		});
 	}
 	
 	public JPanel panel() {
@@ -47,9 +66,25 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 		JPanel panelTiempo = new JPanel();
 		panel.add(panelTiempo);
 		
-		JLabel etiquetaTiempo = new JLabel("00:00");
+		JLabel etiquetaTiempo = new JLabel("00:00:00");
 		etiquetaTiempo.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panelTiempo.add(etiquetaTiempo);
+		cronometro = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				segundos++;
+				if(segundos > 59) {
+					segundos = 0;
+					minutos++;
+				}
+				if(minutos > 59) {
+					minutos = 0;
+					horas++;
+				}
+				String tiempo = String.format("%02d:%02d:%02d", horas, minutos, segundos);
+				etiquetaTiempo.setText(tiempo);
+			}
+		});
 		
 		panelMovimiento = new PaintPanel();
 		panelMovimiento.setPreferredSize(new Dimension(500,500));
@@ -70,6 +105,12 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 			public void actionPerformed(ActionEvent e) {
 				jugador.x = 235;
 				jugador.y = 235;
+				direccionMovimiento = 0;
+				segundos = 0;
+				minutos = 0;
+				horas = 0;
+				etiquetaTiempo.setText("00:00:00");
+				cronometro.stop();
 				repaint();
 				panelMovimiento.requestFocusInWindow();
 			}
@@ -83,6 +124,8 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 		return panel;
 	}
 	
+	
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -91,25 +134,37 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		cronometro.start();
+		movimiento.start();
 		int codigo = e.getKeyCode();
 		
-		int direccion = 0;
 		System.out.println(codigo);
 		if(codigo == KeyEvent.VK_W || codigo == KeyEvent.VK_UP) {
-			direccion = Player.UP;
+			direccionMovimiento = Player.UP;
 		}
 		else if(codigo == KeyEvent.VK_A || codigo == KeyEvent.VK_LEFT) {
-			direccion = Player.LEFT;
+			direccionMovimiento = Player.LEFT;
 		}
 		else if(codigo == KeyEvent.VK_S || codigo == KeyEvent.VK_DOWN) {
-			direccion = Player.DOWN;
+			direccionMovimiento = Player.DOWN;
 		}
 		else if(codigo == KeyEvent.VK_D|| codigo == KeyEvent.VK_RIGHT) {
-			direccion = Player.RIGHT;
+			direccionMovimiento = Player.RIGHT;
 		}
+		else if(codigo == KeyEvent.VK_SPACE) {
+			direccionMovimiento = 0;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
+	}
+	
+	public void actualizar() {
 		Player siguientePosicion = new Player(jugador.x,jugador.y, jugador.width, jugador.height, Color.RED);
-		siguientePosicion.mover(direccion);
+		siguientePosicion.mover(direccionMovimiento);
 		boolean puedeMoverse = true;
 		for (Iterator iterator = paredes.iterator(); iterator.hasNext();) {
 			Player player = (Player) iterator.next();
@@ -119,15 +174,8 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 			}
 		}
 		if(puedeMoverse){	
-			jugador.mover(direccion);	
+			jugador.mover(direccionMovimiento);	
 		}
-		this.repaint();
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	class PaintPanel extends JPanel{
@@ -156,8 +204,7 @@ public class VentanaKeyListener extends JFrame implements KeyListener{
 		private int height;
 		private Color color = Color.GREEN;
 		
-		private final int velocidad = 5;
-		
+		private final int velocidad = 1;
 		public static final int UP = 1;
 		public static final int LEFT = 2;
 		public static final int RIGHT = 3;
